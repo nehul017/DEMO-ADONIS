@@ -3,8 +3,9 @@ import Pet from 'App/Models/Pet';
 import { schema } from '@ioc:Adonis/Core/Validator';
 
 export default class PetsController {
-  public async index() {
-    return Pet.all();
+  public async index({ response }: HttpContextContract) {
+    response.status(201);
+    return { message: 'Get All Pets', data: await Pet.all() };
   }
 
   public async store({ request, response }: HttpContextContract) {
@@ -17,7 +18,7 @@ export default class PetsController {
   }
 
   public async show({ params }: HttpContextContract) {
-    return Pet.findOrFail(params.id);
+    return { message: 'Api Success', data: await Pet.findOrFail(params.id) };
   }
 
   public async update({ params, request }: HttpContextContract) {
@@ -30,7 +31,8 @@ export default class PetsController {
 
   public async destroy({ params, response }: HttpContextContract) {
     const pet = await Pet.findOrFail(params.id);
-    response.status(204);
-    return pet.delete();
+    await pet.delete();
+    response.status(200);
+    return { message: 'Pet deleted  successfully', data: {} };
   }
 }

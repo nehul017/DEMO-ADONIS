@@ -21,3 +21,5 @@
 import Route from '@ioc:Adonis/Core/Route';
 
 Route.resource('/pets', 'PetsController').apiOnly();
+Route.resource('/posts', 'PostsController').apiOnly();
+
